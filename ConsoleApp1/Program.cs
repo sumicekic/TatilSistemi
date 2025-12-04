@@ -14,13 +14,74 @@ namespace TatilSistemi
 
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Sistem başlatılıyor...");
-
-            // veri çekme metodunu çağırıyorum
+            // önce gidip apiden verileri çeksin
             await VerileriCek();
 
-            Console.WriteLine("Veriler hafızaya alındı. Devam etmek için Enter'a bas.");
-            Console.ReadLine();
+            Console.WriteLine("\nVeriler geldi. Menüye geçiliyor...");
+
+            // program sürekli dönsün diye true yapıyorum
+            bool devam = true;
+
+            while (devam)
+            {
+                // ekrana menü seçeneklerini yazdırıyorum
+                Console.WriteLine("\n===== PublicHolidayTracker =====");
+                Console.WriteLine("1. Tatil listesini göster (yıl seçmeli)");
+                Console.WriteLine("2. Tarihe göre tatil ara (gg-aa formatı)");
+                Console.WriteLine("3. İsme göre tatil ara");
+                Console.WriteLine("4. Tüm tatilleri 3 yıl boyunca göster (2023–2025)");
+                Console.WriteLine("5. Çıkış");
+                Console.Write("Seçiminiz: ");
+
+                string secim = Console.ReadLine();
+
+                // girilen sayıya göre işlem seçimi (switch-case)
+                switch (secim)
+                {
+                    case "1":
+                        YilSec(); // yıl seçme metoduna git
+                        break;
+                    case "2":
+                        TarihAra(); // tarih arama metoduna git
+                        break;
+                    case "3":
+                        IsimAra(); // isim arama metoduna git
+                        break;
+                    case "4":
+                        HepsiniGoster(); // hepsini listele
+                        break;
+                    case "5":
+                        devam = false; // döngüyü kır, program kapansın
+                        Console.WriteLine("Çıkış yapılıyor...");
+                        break;
+                    default:
+                        Console.WriteLine("Yanlış tuşa bastın, tekrar dene.");
+                        break;
+                }
+            }
+        }
+
+        // --- ŞİMDİLİK BOŞ METOTLAR (HATA VERMESİN DİYE) ---
+        // bunların içini bir sonraki adımda dolduracağım
+
+        static void YilSec()
+        {
+            Console.WriteLine(">> Yapım aşamasında...");
+        }
+
+        static void TarihAra()
+        {
+            Console.WriteLine(">> Yapım aşamasında...");
+        }
+
+        static void IsimAra()
+        {
+            Console.WriteLine(">> Yapım aşamasında...");
+        }
+
+        static void HepsiniGoster()
+        {
+            Console.WriteLine(">> Yapım aşamasında...");
         }
 
         // APIden veri çeken metot
