@@ -60,28 +60,86 @@ namespace TatilSistemi
                 }
             }
         }
-
-        // --- ŞİMDİLİK BOŞ METOTLAR (HATA VERMESİN DİYE) ---
-        // bunların içini bir sonraki adımda dolduracağım
-
         static void YilSec()
         {
-            Console.WriteLine(">> Yapım aşamasında...");
+            Console.Write("Hangi yılı görmek istersin (2023, 2024, 2025): ");
+            string girilenYil = Console.ReadLine();
+
+            Console.WriteLine("\n--- " + girilenYil + " Yılı Tatilleri ---");
+
+            // listeyi tek tek geziyorum
+            foreach (var tatil in tumTatiller)
+            {
+                // eğer tatilin tarihi girilen yılla başlıyorsa ekrana yaz
+                if (tatil.date.StartsWith(girilenYil))
+                {
+                    Console.WriteLine(tatil.date + " : " + tatil.localName);
+                }
+            }
         }
 
         static void TarihAra()
         {
-            Console.WriteLine(">> Yapım aşamasında...");
+            Console.Write("Tarih gir (gg-aa şeklinde, örn: 29-10): ");
+            string girilen = Console.ReadLine();
+
+            // tarih formatı doğru mu diye kontrol ediyorum (uzunluğu 5 olmalı)
+            if (girilen.Length == 5)
+            {
+                // Kullanıcı 29-10 giriyor ama API'de tarih yyyy-aa-gg (2024-10-29)
+                // O yüzden tersten kontrol edeceğiz: -10-29 şeklinde aratıyorum
+                string aranacak = "-" + girilen.Substring(3, 2) + "-" + girilen.Substring(0, 2);
+
+                bool bulunduMu = false;
+
+                foreach (var tatil in tumTatiller)
+                {
+                    // tarih bu şekilde bitiyor mu?
+                    if (tatil.date.EndsWith(aranacak))
+                    {
+                        Console.WriteLine("Bulundu: " + tatil.date + " -> " + tatil.localName);
+                        bulunduMu = true;
+                    }
+                }
+
+                // eğer hiç bulamadıysa uyarı ver
+                if (bulunduMu == false)
+                {
+                    Console.WriteLine("Bu tarihte resmi tatil yokmuş.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Hatalı yazdın, lütfen gg-aa şeklinde yaz.");
+            }
         }
 
         static void IsimAra()
         {
-            Console.WriteLine(">> Yapım aşamasında...");
+            Console.Write("Aramak istediğin tatilin adı ne: ");
+            // küçük harfe çeviriyorum ki büyük-küçük harf sorunu olmasın
+            string aranan = Console.ReadLine().ToLower();
+
+            Console.WriteLine("\n--- Arama Sonuçları ---");
+
+            foreach (var tatil in tumTatiller)
+            {
+                // tatil isminin içinde aranan kelime geçiyor mu?
+                if (tatil.localName.ToLower().Contains(aranan))
+                {
+                    Console.WriteLine(tatil.date + " -> " + tatil.localName);
+                }
+            }
         }
 
         static void HepsiniGoster()
         {
-            Console.WriteLine(">> Yapım aşamasında...");
+            Console.WriteLine("\n--- 2023-2025 Tüm Tatiller ---");
+            // döngüyle hepsini alt alta yazdır
+            foreach (var t in tumTatiller)
+            {
+                Console.WriteLine(t.date + "\t" + t.localName);
+            }
         }
 
         // APIden veri çeken metot
